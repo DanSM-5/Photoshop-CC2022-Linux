@@ -2,6 +2,11 @@
 # Seems that mimifile is a placeholder for the progress bar
 # This script is a modified version of the original script by LinSoftWin
 
+# Arg: $1
+# Path to install
+# E.g.: $HOME/programs
+# final: $HOME/programs/Adobe-Photoshop
+
 mkdir $1/Adobe-Photoshop
 
 wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
@@ -39,7 +44,8 @@ touch $1/progress.mimifile
 echo "50" >> $1/progress.mimifile
 
 tar -xf AdobePhotoshop2021.tar.xz
-rm -rf AdobePhotoshop2021.tar.xz
+# Do not remove installer
+# rm -rf AdobePhotoshop2021.tar.xz
 
 rm -rf $1/progress.mimifile
 touch $1/progress.mimifile
@@ -106,3 +112,11 @@ rm -rf winetricks
 
 echo "100" >> $1/progress.mimifile
 rm -rf $1/progress.mimifile
+
+# Install camaraRaw
+if ! [ -f 'CameraRaw_12_2_1.exe' ]; then
+  # If not present
+  curl -L "https://download.adobe.com/pub/adobe/photoshop/cameraraw/win/12.x/CameraRaw_12_2_1.exe" > CameraRaw_12_2_1.exe
+fi
+
+WINEPREFIX="$1/Adobe-Photoshop" wine CameraRaw_12_2_1.exe
